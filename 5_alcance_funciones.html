@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alcance de las funciones</title>
+</head>
+<body>
+<script>
+ /* ALCANCE DE LAS FUNCIONES
+Hace referencia a cuáles variables puede acceder una funcion y el valor que tienen al momento de invocar la funcion.
+
+Variable global: Variable que no esta definida dentro de una funcion sino por fuera de ella. */
+
+var nombre = "Alejandro"
+
+function convierteMayusculas(){
+    nombre= nombre.toUpperCase()
+    console.log(nombre)
+}
+
+convierteMayusculas()
+
+/* El alcance de la siguiente funcion solo es para la variable local que le llega por parametro */
+
+function imprimirNombreEnMayusculas1(n) {
+    n = n.toLowerCase()
+    console.log(n)
+}
+
+imprimirNombreEnMayusculas1(nombre)
+
+
+</script>
+</body>
+</html>

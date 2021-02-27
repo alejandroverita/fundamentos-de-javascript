@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones</title>
+</head>
+<body>
+<script>
+var nombre = 'Sacha', edad = 28
+
+function imprimirEdad(){
+console.log(`${nombre} tiene ${edad} años`)
+}
+
+imprimirEdad()
+
+function imprimirEdad2(n, e){
+console.log(`${n} tiene ${e} años`)
+}
+imprimirEdad2(nombre, edad)
+imprimirEdad2('Paula', 54)
+imprimirEdad2('Carlos', 23)
+
+//Si una función la creamos con parametros
+//Pero no se los enviamos, no va a salir error
+//Intentará imprimir pero pondrá undefined en los
+//parametros que no ingresemos. Esto debido a
+// que js es debilmente tipado
+imprimirEdad2('Caro')
+imprimirEdad2()
+</script>
+</body>
+</html>
