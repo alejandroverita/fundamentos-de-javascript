@@ -344,3 +344,102 @@ Switch se utiliza para realizar diferentes acciones basadas en múltiples condic
 Prompt, muestra un cuadro de mensaje que le pide al usuario que ingrese algúna información.
 
 Break, sirve para que el browser se salte un bucle.
+
+<br>
+
+[========]
+
+## INTRODUCION A LOS ARRAYS
+
+Los arrays son estructuras que nos permiten organizar elementos dentro de una collección. Estos elementos pueden ser números, strings, booleanos, objetos, etc
+
+
+<br>
+
+[========]
+
+## FILTRAR UN ARRAY
+
+Para filtrar siempre necesitamos establecer una condición. En este ejemplo nuestra condición es que la estatura de las personas sea mayor de 1.80mts.
+
+El método filter ( ) crea una nueva matriz con todos los elementos que pasan la prueba implementada por la función proporcionada.
+
+Recuerda que si no hay elementos que pasen la prueba, filter devuelve un array vacío.
+
+Reto: escribe el filtrado de personas bajas.
+
+<br>
+
+[========]
+
+## TRANSFORMAR UN ARRAY
+
+El método map() itera sobre los elementos de un array en el orden de inserción y devuelve array nuevo con los elementos modificados.
+
+
+En esta clase vamos a profundizar acerca de la función map, la función “map” a diferencia de filter lo que va a hacer devolvernos un nuevo array en el cual va a modificar cada uno de los elementos que le vayamos pasando del array original, con ello vamos a pasar la altura de las personas como están de metros a centímetros.
+Y lo haremos de la siguiente manera:
+
+
+
+    const pasarAlturaACms = persona => {
+        persona.altura *= 100
+        return persona
+    }
+    
+    var personasCms = personas.map(pasarAlturaACms)
+
+`console.log(personasCms)`
+
+
+Al hacer esto map nos pasara la altura de las personas convertida a centímetros, pero. que pasa con el array personas? La respuesta es que también cambia, si lo revisas en la consola del navegador, veras que está en centímetros y esto es un inconveniente, por lo que;
+
+
+
+    const pasarAlturaACms = persona => {
+        return {
+            ...persona,
+            altura: persona.altura * 100
+    
+        }
+    }
+
+Al hacer esto, le estamos diciendo que queremos pasar la altura a centímetros sin modificar el array original, sino que nos retorne un array nuevo, con la altura modificada, puesto que estamos desglosando la persona y pisamos el valor de su altura abajo.
+
+Por lo que, al crear este array nuevo, el mismo estará en otro espacio de la memoria RAM, a parte del original por lo que al hacer el cambio, como vimos en clases pasadas, no cambia los tributos del array original.
+Podemos comparar, en la consola:
+
+`Personas[0] === personasCms [0]`
+
+Nos dira false porque son datos en espacios de memoria RAM distintos, por lo que si cambiamos la clave de uno no cambia la clave del otro, ejemplo;
+
+Cambiemos en la consola el nombre de angel a pablo con;
+
+`Personas[0].nombre = ‘pablo’`
+
+Al escribir “personas[0]” nos mostrara que el nombre del primer objeto ha cambiado, por el mismo principio antes explicado.
+Ahora otra cosa a tener en cuenta es que existe una forma de hacer que el arrow function retorne el array, escribiéndolo con otra nomenclatura;
+
+
+
+    const pasarAlturaACms = persona => ({
+        ...persona,
+        altura:persona.altura * 100
+    })
+
+Si lo escribimos de esta manera, iniciando el paréntesis luego del arrow, encerramos la funcion entre llaves, haremos que el arrow function nos retorne el array automáticamente y queda mas prolijo de esta manera
+
+<img src="https://static.platzi.com/media/user_upload/ARRAYS%20CHEATSHEET-860a3133-741f-43fe-a5aa-44fd88fa2828.jpg" alt="cheatsheet">
+
+<br>
+
+[========]
+
+
+
+## REDUCIR UN ARRAY A UN VALOR
+
+
+<br>
+
+[========]
