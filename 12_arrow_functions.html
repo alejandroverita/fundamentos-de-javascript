@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrow Functions</title>
+</head>
+<body>
+<script>
+
+var sacha = {
+    nombre: 'Sacha',
+    apellido: 'Lifszyc',
+    edad: 28,
+    ingeniero: false,
+    cocinero: false,
+    cantante: true,
+    dj: false,
+    guitarrista: false,
+    drone: false
+  }
+  
+  var juan = {
+    nombre: 'Juan',
+    apellido: 'Gomez',
+    edad: 13
+  }
+  
+  function imprimirProfesiones(persona) {
+    console.log(`${persona.nombre} es:`)
+  
+    if (persona.ingeniero) {
+      console.log('Ingeniero')
+    } else {
+      console.log('No es ingeniero')
+    }
+  
+    if (persona.cocinero) {
+      console.log('Cocinero')
+    }
+  
+    if (persona.dj) {
+      console.log('DJ')
+    }
+  
+    if (persona.cantante) {
+      console.log('Cantante')
+    }
+  
+    if (persona.guitarrista) {
+      console.log('Gutiarrista')
+    }
+  
+    if (persona.drone) {
+      console.log('Piloto de drone')
+    }
+  }
+  
+  const MAYORIA_DE_EDAD = 18
+  
+  // const esMayorDeEdad = function (persona) {
+  //   return persona.edad >= MAYORIA_DE_EDAD
+  // }
+  const esMayorDeEdad = ({ edad }) => edad >= MAYORIA_DE_EDAD /* Esta es la arroy function */
+  
+
+  /* 
+  Con arrow function se puede omitir el return
+  Se reconoce con un =>
+  Se puede omitir las llaves en la funcion que retorn
+
+  */
+
+
+  function imprimirSiEsMayorDeEdad(persona) {
+    if (esMayorDeEdad(persona)) {
+      console.log(`${persona.nombre} es mayor de edad`)
+    } else {
+      console.log(`${persona.nombre} es menor de edad`)
+    }
+  }
+  
+  /* function permitirAcceso(persona) {
+    if (!esMayorDeEdad(persona)) {
+      console.log('ACCESO DENEGADO')
+    }
+  }  */  
+
+  /* RETO TRANSFORMACION FUNCION permitirAceceso a Arrow Function */
+
+  const permitirAcceso = ({ edad }) => edad >= MAYORIA_DE_EDAD
+
+/* AHORA CON OPERADOR TERNARIO */
+  
+  const permitirAcceso = ({ edad }) => edad >= MAYORIA_DE_EDAD ? 'Acceso permitido ' : 'Permiso denegado' ;
+
+</script>
+</body>
+</html>

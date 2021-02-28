@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Condicionales</title>
+</head>
+<body>
+<script>
+    var sacha = {
+    nombre: 'Sacha',
+    apellido: 'Lifszyc',
+    edad: 28,
+    ingeniero: true,
+    cocinero: false,
+    cantante: true,
+    dj: false,
+    guitarrista: false,
+    drone: false
+  }
+  
+  function imprimirProfesiones(persona) {
+    console.log(`${persona.nombre} es:`)
+  
+    if (persona.ingeniero) {
+      console.log('Ingeniero')
+    } 
+  
+    if (persona.cocinero) {
+      console.log('Cocinero')
+    }
+  
+    if (persona.dj) {
+      console.log('DJ')
+    }
+  
+    if (persona.cantante) {
+      console.log('Cantante')
+    }
+  
+    if (persona.guitarrista) {
+      console.log('Guitarrista')
+    }
+  
+    if (persona.drone) {
+      console.log('Piloto de drone')
+    }  
+  }
+  
+  imprimirProfesiones(sacha)
+
+var alejandro = {
+    nombre: "Alejandro",
+    edad: 23,
+    profesion : "Mecanico aeronautico",
+    desarrollador: false,
+    guitarrista: true,
+    heterosexual: true
+}
+
+function mayorEdad(persona){
+    console.log(`${persona.nombre} es: `)
+    if (persona.edad > 17) {
+        console.log("mayor de edad.")
+    }   
+    else
+        console.log("Vuelve a la escuela nino")
+}
+
+/* llamar a la funcion */
+
+    mayorEdad(alejandro)
+
+
+</script>
+</body>
+</html>

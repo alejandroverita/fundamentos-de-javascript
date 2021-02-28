@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estructuras de control: Do while</title>
+</head>
+<body>
+<script>
+var contador = 0
+/* function llueve () {
+    return Math.random() < 0.25;
+} */
+const llueve = () => Math.random() < 0.25
+
+do {
+  contador++
+} while (!llueve()) /* mientras NO LLUEVA seguira contando */
+
+if (contador === 1) {
+  console.log(`Fui a ver si llovía ${contador} vez`)
+} else {
+  console.log(`Fui a ver si llovía ${contador} veces`)
+}
+</script>
+</body>
+</html>
