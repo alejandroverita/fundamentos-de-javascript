@@ -132,3 +132,215 @@ Existen cinco tipos de datos que son primitivos:
 <br>
 
 [========]
+
+## CONDICIONALES
+
+<img src= "https://static.platzi.com/media/user_upload/7-Condicionales-3cd48a8e-a00c-48f6-89d1-a7f539efe269.jpg" alt= "Condicionales">
+
+
+<br>
+
+[========]
+
+
+## FUNCTION QUE RETORNAN VALORES
+
+Return detiene la ejecución de una función y devuelve el valor de esa función.
+
+Las variables definidas con const se comportan como las variables, excepto que no pueden ser reasignadas. Las constantes pueden ser declaradas en mayúsculas o minúsculas. Pero por convención, para distinguirlas del resto de variables, se escribe todo en mayusculas.
+
+<br>
+
+[========]
+
+## ARROW FUNCTIONS
+
+ Arrow Functions permiten una nomenclatura más corta para escribir expresiones de funciones. Este tipo de funciones deben definirse antes de ser utilizadas.
+
+Al escribir las Arrow Functions no es necesario escribir la palabra function, la palabra return, ni las llaves
+
+JS permite asignar una función a una variable. Se llama función anónima. Y se puede escribir de varias maneras:
+
+    const MAYORIA_DE_EDAD = 18
+    
+    var esMayorDeEdad =function (persona) {   	
+    	return persona.edad >= MAYORIA_DE_EDAD
+    }
+
+Sacha prefiere declararla como ‘const’ y no como ‘var’ para definir que es una función y no una variable:
+
+    const esMayorDeEdad =function (persona) {   	
+    	return persona.edad >= MAYORIA_DE_EDAD
+    }
+
+La palabra clave ‘`function`’ puede reemplazarse por un ‘=>’ después de persona y se convierte en un arrow function:
+
+    const esMayorDeEdad = (persona) => {   	
+    	return persona.edad >= MAYORIA_DE_EDAD
+    }
+
+**Se pueden seguir quitando caracteres.**
+
+Cuando hay un sólo parámetro se pueden quitar los paréntesis
+Si una función sólo retorna un valor se puede quitar el keyword ‘`return`’ y las llaves {}
+
+`const esMayorDeEdad = persona => persona.edad >= MAYORIA_DE_EDAD`
+
+También se puede desestructurar el parámetro ya que sólo nos interesa la edad. Hay que agregar paréntesis:
+
+`const esMayorDeEdad = ({ edad }) => edad >= MAYORIA_DE_EDAD`
+
+
+<br>
+
+[========]
+
+
+## ESTRUCTURAS REPETITIVAS FOR
+
+El bucle for, se utiliza para repetir una o más instrucciones un determinado número de veces.
+
+Para escribir un bucle for se coloca la palabra for seguida de paréntesis y llaves.
+Ej. for( ){ }. Dentro de los paréntesis irán las condiciones para ejecutar el bucle, y dentro las llaves irán las instrucciones que se deben repetir.
+
+En este ejemplo la variable i la utilizamos como contador.
+
+<br>
+
+[========]
+
+## ESTRUCTURAS REPETITIVAS: WHILE
+
+La estructura while nos permite repetir un código, hasta que se cumpla una condición
+
+Lo primera que vamos a hacer, será modificar nuestra estructura anterior de la siguiente manera
+
+    var angel = {
+        nombre: 'Angel',
+        apellido: 'Sulbaran',
+        edad: 23,
+        peso: 70
+    
+    }
+    
+    var pepe = {
+        nombre: 'Pepe',
+        apellido: 'Trueno',
+        edad: 13
+    }
+    
+    console.log(`anualmente al inicio ${angel.nombre} pesa ${angel.peso}kg`)
+    
+    const INCREMENTO_DE_PESO = 0.3
+    
+    const aumentarDePeso = persona => persona.peso += INCREMENTO_DE_PESO
+    const adelgazar = persona => persona.peso -= INCREMENTO_DE_PESO
+    const comeMucho = () => Math.random < 0.3
+    const realizaDeporte = () => Math.random < 0.4
+    var dias = 0
+    
+    const META = angel.peso - 3
+    
+    while (angel.peso > META) {
+        debugger
+        if(comeMucho()) {
+            aumentarDePeso(angel)
+        }
+        if(realizaDeporte()) {
+            adelgazar(angel)
+        }
+        dias += 1
+    }
+    
+    console.log(`pasaron ${dias} dias hasta que ${angel.nombre} adelgazo 3kg`)
+Lo primero que hacemos aca es borrar la estructura repetitiva “for” y asignaremos while de la siguiente manera “while(){}” donde while será la condición para que el código termine de ejecutarse, por lo que mientras no llegue a la condición, no se terminara de ejecutar, siendo asi, las funciones que cumplirá para llegar a la condición, la colocaremos dentro de las llaves.
+
+Nuestra meta aca es que angel rebaje kg, por lo que debemos crear la meta para que angel baje kg.
+
+  ` const META = angel.peso - 3`
+
+   vamos a crear las funciones aleatorias para que angel aumente o rebaje de peso, de manera que;
+
+    
+    const comeMucho = () => Math.random < 0.3
+    const realizaDeporte = () => Math.random < 0.4
+    asi que agregaremod esto a la estructura while de la siguiente manera
+    
+    while (angel.peso > META) {
+        debugger
+        if(comeMucho()) {
+            aumentarDePeso(angel)
+        }
+        if(realizaDeporte()) {
+            adelgazar(angel)
+        }
+    }
+
+Donde colocaremos, dos condiciones que pueden pasar aleatoriamente, si come mucho o si realiza deporte, ahora para calcular los días que le tomara a angel llegar a la meta, crearemos una variable, “dias”, que debe ser agregada de la manera “var días = ” no podemos usar “const” debido a que es un valor sujeto a cambios por lo que si usamos const, nos dará error. Luego de creada la variable, la agregaremos de la siguiente manera
+
+    while (angel.peso > META) {
+        debugger
+        if(comeMucho()) {
+            aumentarDePeso(angel)
+        }
+        if(realizaDeporte()) {
+            adelgazar(angel)
+        }
+        dias += 1
+    }
+
+
+Y por último agregaremos un cambio al último console.log;
+
+
+`console.log(pasaron ${dias} dias hasta que ${angel.nombre} adelgazo 3kg)`
+
+Ahora luego de hecho todo esto, veras que, no te va a funcionar, aca viene una parte muy importante de esta clase, que el debuggin. Usaremos “debugger”;
+
+    while (angel.peso > META) {
+        debugger
+        if(comeMucho()) {
+            aumentarDePeso(angel)
+        }
+        if(realizaDeporte()) {
+            adelgazar(angel)
+        }
+        dias += 1
+    }
+
+Donde sea que queramos debuggear algo cuando estes probando cosas dentro del navegador, agregaras esto al código que quieres reparar/arreglar/hacer funcionar, como te apetezca decirle, el punto es que esto lo vas a usar en la consola, y te va a cancelar la ejecución del código cada vez que le agregues “debugger” a uno, ahora nos vamos a pestaña sources.
+
+Revisar video de eestructuras while, para repasar en caso de que se olvide un detalle de como sirve esto, o ver un video en Youtube en su defecto.
+Aca el bug es muy simple de ver, y es algo que probablemente se te olvido al momento de escribir las arrow functions, pero es algo muy básico que debemos siempre tener en cuenta
+
+`const comeMucho = () => Math.random() < 0.3`
+`const realizaDeporte = () => Math.random() < 0.4`
+
+
+No puedes dejar colocar los paréntesis al crear la función, porque con esto es que llamas las funciones, al menos de este tipo, como lo es random.
+
+
+<br>
+
+[========]
+
+
+## ESTRUCTURAS REPETITIVAS: DO-WHILE
+
+A diferencia de la instrucción while, un bucle do…while se ejecuta una vez antes de que se evalúe la expresión condicional.
+
+
+
+
+<br>
+
+[========]
+
+
+## CONDICIONAL MULTIPLE: SWITCH
+
+Switch se utiliza para realizar diferentes acciones basadas en múltiples condiciones.
+
+Prompt, muestra un cuadro de mensaje que le pide al usuario que ingrese algúna información.
+
+Break, sirve para que el browser se salte un bucle.
