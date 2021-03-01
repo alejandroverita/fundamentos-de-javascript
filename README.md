@@ -587,3 +587,567 @@ El método constructor es un método especial para crear e inicializar un objeto
 <br>
 
 [========]
+
+## FUNCIONES COMO PARAMETROS
+
+En JavaScript, los parámetros de funciones son por defecto undefined. De todos modos, en algunas situaciones puede ser útil colocar un valor por defecto diferente que lo evalúe como verdadero.
+
+Valores falsy (valores falsos) en Javascript:
+
+- false
+- 0
+- null
+- ""
+- undefined
+- NaN
+
+Los demás son valores [Truthy](https://developer.mozilla.org/es/docs/Glossary/Truthy "Truthy") (valores verdaderos).
+
+Es posible pasar funciones como parámetros como si fuera cualquier otro tipo de variable.
+
+Cómo se declara?
+Como cualquier función.
+
+La siguiente función es una respuesta a la función saludar del código que traemos de las clases anteriores:
+
+
+
+    function responderSaludo(){
+    	console.log(`Buen día`)
+    }
+
+Cómo se implementa al prototipo?
+
+Se agrega un parámetro a la función que la va a disparar dentro del prototipo (‘saludar(fn)’, en este caso) y un if que evalúe si es llamada.
+
+	saludar(fn){
+		console.log(`Hola me llamo ${this.nombre} ${this.apellido}`)
+		if(fn){
+			fn()
+		}
+	}
+
+**Cómo se ejecuta?**
+
+Se ejecuta invocando la función sin paréntesis dentro de los paréntesis de la función saludar ya que es una respuesta al saludo:
+
+`sacha.saludar(responderSaludo)`
+
+**Si quiero pasar parámetros?**
+
+Los agrego al declarar la función y luego los agrego entre paréntesis a la invocación de la misma dentro de la función que la dispara en el prototipo. Funcionan implícitamente, es decir, no se agregan cuando invoco la función dentro del ‘saludar()’.
+
+En la declaración:
+
+
+
+    function responderSaludo(_nombre_, _apellido_, _esDev_){
+    	console.log(`Buen día ${_nombre_} ${_apellido_}.`)
+    	if (_esDev_) {
+    		console.log(`Ah mirá, no sabía que eras dev.`)
+    	}
+    }
+
+En la función nativa:
+
+	saludar(fn){
+		console.log(`Hola me llamo ${this.nombre} ${this.apellido}`)
+		if(fn){
+			fn(_this.nombre_, _this.apellido_)
+		}
+	}
+
+Se invoca:
+
+`sacha.saludar(responderSaludo)`
+
+Para despejar la lectura del código y escribir menos:
+
+	saludar(fn){
+		console.log(`Hola me llamo ${this.nombre} ${this.apellido}`)
+		if(fn){
+			var {nombre, apellido} = this 
+			// == var nombre = this.nombre // var apellido = this.apellido
+			fn(nombre, apellido)
+		}
+	}
+
+Hay valores que al ser evaluados dentro de un if dan verdadero y otros falso, en este caso fn dentro del if evalúa si existe la función en la invocación de saludar().
+
+El código completo quedaría así:
+
+
+
+    class Persona {
+    	constructor(nombre, apellido, altura, genero){
+    		this.nombre = nombre
+    		this.apellido = apellido
+    		this.altura = altura
+    		this.genero = genero
+    	}
+    	saludar(fn){
+    		console.log(`Hola me llamo ${this.nombre} ${this.apellido}`)
+    		if(fn){
+    			var {nombre, apellido} = this
+    			fn(nombre, apellido)
+    		}
+    	}
+    	soyAltX(){
+    		var altX = this.genero == 'masculino' ? 'alto' : 'alta'
+    		var string = this.altura >= 1.8 ? `Soy ${this.nombre} ${this.apellido} y definitivamente soy ${altX}.` 
+    										: `Soy ${this.nombre} ${this.apellido} y no, no soy ${altX}.`
+    		console.log(string)
+    	}
+    }
+    
+    class Desarrollador extends Persona {
+    	constructor(nombre, apellido, altura){
+    		super(nombre, apellido, altura)
+    	}
+    	saludar(fn){
+    		console.log(`Hola, me llamo ${this.nombre} ${this.apellido} y soy desarrollader.`)
+    		if(fn){
+    			var {nombre, apellido} = this
+    			fn(nombre, apellido, true)
+    		}
+    	}
+    }
+    
+    function responderSaludo(nombre, apellido, esDev){
+    	console.log(`Buen día ${nombre} ${apellido}.`)
+    	if (esDev) {
+    		console.log(`Ah mirá, no sabía que eras dev.`)
+    	}
+    }
+    
+    var pablo = new Persona('Pablo', 'Andrés', 1.78, 'masculino')
+    var joaquin = new Desarrollador('Joaquín', 'Perez', 1.91, 'masculino')
+    var rosa = new Persona('Rosa', 'Mosqueta', 1.81, 'femenino')
+    var elis = new Persona('Elis', 'Detta', 1.73, 'femenino')
+    
+    pablo.saludar()
+    joaquin.saludar(responderSaludo)
+    rosa.saludar(responderSaludo)
+    elis.saludar(responderSaludo)
+
+
+<br>
+
+[========]
+
+## CÓMO FUNCIONA EL ASINCRONISMO EN JAVASCRIPT
+
+JavaScript sólo puede hacer una cosa a la vez, sin embargo; es capaz de delegar la ejecución de ciertas funciones a otros procesos. Este modelo de concurrencia se llama EventLoop.
+
+JavaScript delega en el navegador ciertas tareas y les asocia funciones que deberán ser ejecutadas al ser completadas. Estas funciones se llaman callbacks, y una vez que el navegador ha regresado con la respuesta, el callback asociado pasa a la cola de tareas para ser ejecutado una vez que JavaScript haya terminado todas las instrucciones que están en la pila de ejecución.
+
+Si se acumulan funciones en la cola de tareas y JavaScript se encuentra ejecutando procesos muy pesados, el EventLoop quedará bloqueado y esas funciones pudieran tardar demasiado en ejecutarse.
+
+<br>
+
+[========]
+
+## COMO FUNCIONA EL TIEMPO EN JAVASCRIPT
+
+En principio, cualquier tarea que se haya delegado al navegador a través de un callback, deberá esperar hasta que todas las instrucciones del programa principal se hayan ejecutado. 
+
+Por esta razón el tiempo de espera definido en funciones como setTimeout, no garantizan que el callback se ejecute en ese tiempo exactamente, sino en cualquier momento a partir de allí, sólo cuando la cola de tareas se haya vaciado.
+
+
+<br>
+
+[========]
+
+## CALLBACKS
+
+Usaremos una librería externa que se llama jQuery.
+
+Un callback es una función que se pasa a otra función como un argumento. Esta función se invoca, después, dentro de la función externa para completar alguna acción.
+
+
+<br>
+
+[========]
+
+## HACIENDO MULTIPLES REQUEST
+
+Nunca sabemos en que orden llegaran las peticiones al servidor
+
+<br>
+
+[========]
+
+## MANEJANDO EL ORDEN Y EL ASINCRONISMO EN JAVASCRIPT
+
+Una manera de asegurar que se respete la secuencia en que hemos realizado múltiples tareas es utilizando callbacks, con lo que se ejecutará luego, en cada llamada.
+
+Lo importante es que el llamado al callback se haga a través de una función anónima. Sin embargo, al hacerlo de esta manera generamos una situación poco deseada llamada CallbackHell.
+
+async y await evitaría el callback hell
+
+Agregamos primero otro parámetro a la función obtenerPersonaje().
+
+`obtenerPersonaje(id, callback)`
+
+Movemos la variable de la función al $.get.
+
+
+
+    $.get(url, opts, function(people){
+        console.log(people.name)
+    })
+
+Si queremos que lleguen en orden tenemos que hacer los requests uno después del otro y no en paralelo como los veníamos haciendo.
+Para eso usamos el segundo parámetro en la función.
+
+
+
+    function obtenerPersonaje(id, callback) {
+        const url = `${API_URL}${PEOPLE_URL.replace(':id', id)}`
+        $.get(url, opts, function(people){
+            console.log(people.name)
+        })
+        if(callback) {
+            callback()
+        }
+    }
+
+Así podemos invocar la función del callback de la siguiente manera:
+
+
+
+    obtenerPersonaje(1, function() {
+        obtenerPersonaje(2, function() {
+            obtenerPersonaje(3, function() {
+                obtenerPersonaje(4)
+            })
+        })
+    })
+    
+Pero esto trae la problemática del anidamiento infinito llamado CallbackHell.
+
+
+<br>
+
+[========]
+
+## MANEJO DE ERRORES CON CALLBACKS
+
+Para solucionar el problema de quedarnos sin conexión, u otro error similar, en medio de una sucesión de callbacks utilizamos el método fail().
+
+Cómo solucionar o prever el que el programa se quede sin conexión u algo parecido?
+Primero modificamos la función del $.get y borramos el if:
+
+
+
+    //$.get(url, opts, function(person){
+    //   console.log(person.name)
+    //})
+    //if(callback) {
+    //    callback()
+    //}
+
+Queda así:
+
+`$.get(url, opts, callback)`
+
+El callback llama a la función declarada por parámetro en la invocación de obtenerPersonaje().
+La invocación (1 de ellas) queda así:
+
+
+
+    obtenerPersonaje(1, function(person){
+        console.log(person.name)
+    })
+
+A demás del método get() podemos encadenar otro llamado al método fail() que va a recibir un callback y se va a disparar si hay algún error.
+
+
+
+
+    $.get(url, opts, callback).fail(() => { console.log(`EROR! La conexión se ha interrumpido y no podemos mostrarte el resto de los personajes.`) })
+
+Probamos en consola, pestaña ‘Network’ deshabilitamos la cache y después de recargar nos pusimos en modo offline y se reprodujo el error para disparar el fail().
+
+
+<br>
+
+[========]
+
+## PROMESAS
+
+En esta clase veremos las promesas, que son valores que aun no conocemos. Las promesas tienen tres estados:
+
+- pending
+- fullfilled
+- rejected
+
+Las promesas se invocan de la siguiente forma:
+
+
+
+    new Promise( ( resolve, reject ) => {
+      // --- llamado asíncrono
+      if( todoOK ) {
+         // -- se ejecutó el llamado exitosamente
+         resolve()
+      } else {
+         // -- hubo un error en el llamado
+         reject()
+      }
+    } )
+
+
+Con los callBacks teníamos un problema al anidarlos.
+Para este problema existen las ‘promesas’.
+
+Antes era necesario usar librerías externas pero ahora la mayoría de los browsers soportan las promesas.
+Si queremos verificar si las promesas son soportadas por el usuario se podría usar lo que se llama un ‘polifield’. Este detecta si el navegador donde está corriendo nuestro código no soporta las promesas, y si así es, crea las clases de las promesas por nosotros y así podrían ser utilizadas por nosotros de manera transparente para nuestro código.
+
+Qué son las promesas?
+Tenemos que pensar las promesas como valores que aún no conocemos. Es la promesa de que ahí va a haber un valor cuando una acción asíncrona suceda y se devuelva.
+
+Las promesas tienen 3 estados y son como cualquier otro objeto de javascript.
+
+El primero de los estados es ‘pending’. Es el estado cuando las creamos.
+Si se resuelve exitosamente pasa al estado ‘fulfilled’.
+Si ocurre algún error y no se resuelve pasa al estado de ‘rejected’.
+
+Las promesas pueden no ser asíncronas también.
+
+Para obtener el valor de la resolución de la promesa llamamos a la función _.then(val =>) _a la que le vamos a pasar como parámetro otra función en la que el primer parámetro será el valor que esperábamos.
+
+Si sucede algún error agregamos el método .catch(err=>) al que se le asigna una función también como parámetro que va a recibir el error.
+
+Las promesas se declaran de la siguiente manera:
+
+
+
+    new Promise( function( resolve, reject ) {
+        ...
+    }).then( valor => {
+        ...
+    }).catch( err => {
+        ...
+    })
+
+Se crea el nuevo objeto y se le asigna una función con dos parámetros ‘resolve’ y ‘reject’. Estas son dos funciones que debemos llamar si la promesa se resuelve o no.
+
+Si se resuelve exitosamente llamamos a ‘.then(valor =>’ para obtener el valor del promise dentro del arrow function (valor=>).
+
+Si sucede algún error podemos llamar al ‘.catch( err =>’ para obtener el tipo de error que sucedió y actuar en consecuencia.
+
+Otra cosa más a cerca de las promesas es que luego de llegar al estado de 'fulfilled’ podemos retornar otra promesa dentro del .then y de esa manera ir encadenándolas en sucesivas acciones asíncronas. Cada una de ellas puede ser resuelta o rechazada en una nueva promesa que terminará en el estado de ‘fulfilled’.
+
+Entonces en nuestro código borramos las invocaciones anidadas y volvemos a modificar obtenerPersonaje().
+
+
+
+    function obtenerPersonaje() ya no recibirá un callback, directamente va a retornar una promesa.
+    
+    function obtenerPersonaje(id) {
+        return new Promise( function(resolve, reject){ 
+            ...
+        })
+    }
+
+Como arrow function:
+
+
+
+    function obtenerPersonaje(id) {
+        return new Promise((resolve, reject) => { 
+            ...  //Aquí dentro se genera el llamado asíncrono   ...
+        })
+    }
+
+Dentro de esta función se va a generar el llamado asíncrono.
+Devolvemos la generación de url y el $.get con el parámetro ‘callback’ reemplazado por una nueva función a modo de callback que se va a ejecutar recién cuando el get haya sido exitoso resolviendo la promesa. Por lo que le pasamos el parámetro ‘data’, a través del cual van a llegar los valores de nuestro personaje, y dentro de la función invocamos, a su vez, a la función resolve.
+
+También vamos a vover a insertar el método .fail() invocando el parámetro/función ‘reject’ con parámetro ‘id’.
+
+
+
+    function obtenerPersonaje(id) {
+        return new Promise((resolve, reject) => {
+            const url = `${API_URL}${PEOPLE_URL.replace(':id', id)}`
+            $
+                .get(url, opts, function(data){
+                    resolve(data)
+                })
+                .fail(() => reject(id))
+        })
+    }
+    
+La función se invocaría entonces solamente con el parámetro id.
+
+`obtenerPersonaje(id)`
+
+La forma de obtener el valor es llamando al .then() con su respectiva función como parámetro que va a estar trayendo a nuestro personaje a través del parámetro ‘data’ que está en la función invocada en los parámetros del .get si este es exitoso.
+
+
+
+    obtenerPersonaje(1)
+        .then(function(personaje){
+            console.log(personaje.name)
+        })
+
+
+Y si sucede algún error en nuestro callback lo vamos a obtener con el método .catch() que va a recibir el id que viene a través del .fail() de la función.
+
+
+
+    function onError(id){
+        console.log(`ERORRRRRRR!!!!!!!!!!! No se pudo obtener el personaje con id = ${id}.`)
+    }
+    
+    obtenerPersonaje(1)
+        .then(function(personaje){
+            console.log(personaje.name)
+        })
+        .catch(function(id){
+            onError(id)
+        })
+
+O directamente invocamos la función desde el parámetro del .catch:
+
+
+
+    function onError(id){
+        console.log(`ERORRRRRRR!!!!!!!!!!! No se pudo obtener el personaje con id = ${id}.`)
+    }
+    
+    obtenerPersonaje(1)
+        .then(function(personaje){
+            console.log(personaje.name)
+        })
+        .catch(onError)
+
+
+
+<br>
+
+[========]
+
+
+## PROMESAS ENCADENADAS
+
+A diferencia de los callbacks en el CallbackHell, que terminan estando anidados unos dentro de otros, cuando se usan Promesas la ejecución de las llamadas no se hacen de manera anidada sino de manera encadenada, al mismo nivel una debajo de la otra, lo que hace que el código sea mucho más legible y mantenible.
+
+Encadenar promesas es mucho más limpio que con el método anterior.
+Primero escribimos la invocación de la promesa con un arrow function:
+
+
+
+    obtenerPersonaje(1)
+        .then( personaje => {
+            console.log(personaje.name)
+        })
+        .catch(onError)
+
+Al resolver esta promesa vamos a retornar otra promesa invocando dentro del .then nuevamente la función obtenerPersona() con el id del siguiente personaje:
+
+
+
+    obtenerPersonaje(1)
+        .then( personaje => {
+            console.log(personaje.name)
+            return obtenerPersona(2)
+        })
+        .catch(onError)
+
+Y para obtener los valores de esta promesa encadenamos otro .then y copiamos la función parámetro cambiando el valor del id.
+
+
+
+
+    obtenerPersonaje(1)                                                                                                                                                            
+        .then( personaje1 => {
+            console.log(personaje1.name)
+            return obtenerPersona(2)
+        })
+        .then( personaje2 => {
+            console.log(personaje2.name)
+            return obtenerPersona(3)
+        })
+        .then( personaje3 => {
+            console.log(personaje3.name)                                                                    
+            return obtenerPersona(4)
+        })
+        .
+        .
+        .
+        .catch(onError)
+
+Ahora es mucho más legible y si cualquiera de estas promesas da un error funciona el mismo .catch para todos.
+
+
+<br>
+
+[========]
+
+## ASINC-AWAIT
+
+Async-await es la manera más simple y clara de realizar tareas asíncronas. Await detiene la ejecución del programa hasta que todas las promesas sean resueltas. Para poder utilizar esta forma, hay que colocar async antes de la definición de la función, y encerrar el llamado a Promises.all() dentro de un bloque try … catch.
+
+Se parece mucho a la forma de escribir código hace unos años, de manera secuencial, desde arriba hacia abajo.
+Lo que sí, incluye algunas palabras clave.
+
+Como primer cambio a nuestro código anterior vamos a crear una función en la que incorporamos desde la declaración de la variable ‘ids’ hasta incluso el .catch.
+A continuación llamamos a la función:
+
+
+
+    function obtenerPersonajes() {
+        var ids = []
+        for (let i = 1; i <= 10; i++) {
+            ids.push(i)
+        }
+        var promesas = ids.map( id => obtenerPersonaje(id) )
+        Promise
+            .all(promesas)
+            .then(personajes => console.log(personajes))
+            .catch(onError)
+    }
+    obtenerPersonajes()
+
+
+Después de la declaración de la variable ‘promesas’ guardamos los resultados de esas promesas en una nueva variable ‘personajes’.
+
+
+
+    async function obtenerPersonajes() {
+        var ids = []
+        for (let i = 1; i <= 10; i++) {
+            ids.push(i)
+        }
+        var promesas = ids.map( id => obtenerPersonaje(id) )
+        var personajes = await Promise.all(promesas)
+
+
+Notese la palabra clave ‘await’ antes de Promise.all. Esta hace que el código dentro de la función se detenga en ese lugar hasta que se concretan todas las promesas.
+Para poder usarlo debemos declarar la función como ‘async’.
+
+Para que esto funcione debemos poner este await dentro de una estructura try/catch.
+
+
+
+    function obtenerPersonajes() {
+        var ids = []
+        for (let i = 1; i <= 10; i++) {
+            ids.push(i)
+        }
+        var promesas = ids.map( id => obtenerPersonaje(id) )
+        try{
+            var personajes = await Promise.all(promesas)
+            console.log(personajes))
+        } catch(id) {
+            onError(id)
+        }
+    }
+    obtenerPersonajes()
+
+
+<br>
+
+[========]
