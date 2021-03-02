@@ -5,10 +5,15 @@ const verde = document.getElementById("verde");
 const btnEmpezar = document.getElementById("btnEmpezar");
 
 //ultimo nivel
-const ULTIMO_NIVEL = 10;
+const ULTIMO_NIVEL = 1;
+
+/* swal('Hola') */
+
 
 class Juego {
     constructor() {
+        this.inicializar = this.inicializar.bind(this)
+
         this.inicializar();
         this.generarSecuencia();
 
@@ -23,8 +28,12 @@ class Juego {
         //el this señala al juego y no a cada uno de los botones
         this.elegirColor = this.elegirColor.bind(this)
 
+        //togle funciona como un interruptor: on/off
+        this.toggleBtnEmpezar()
+
         //Lo primero que hace es ocultar el boton empezar        
-        btnEmpezar.classList.add("hide");
+        /* btnEmpezar.classList.add("hide"); */
+        
         this.nivel= 1;
         this.colores = {
             celeste,
@@ -32,6 +41,17 @@ class Juego {
             naranja,
             verde
         };
+    }
+
+    //el metodo se va a fijar si el boton tiene la clase hide sino se la va a agregar
+    toggleBtnEmpezar(){
+
+        if (btnEmpezar.classList.contains('hide')){
+            btnEmpezar.classList.remove('hide')
+        } else {
+            btnEmpezar.classList.add('hide')
+        }
+
     }
 
     generarSecuencia() {
@@ -129,7 +149,7 @@ class Juego {
                 this.eliminarEventosClick();
                 if (this.nivel === (ULTIMO_NIVEL + 1 ))
                 {
-                    //GANó
+                    this.ganoElJuego()
 
                 }
                 else {
@@ -138,9 +158,22 @@ class Juego {
                 }
             }
         } else {
-            //perdió
+            this.perdioElJuego();
 
         }
+    }
+
+    ganoElJuego() {
+        swal('Platzi', 'Felicitaciones, has ganado, crack', 'success')
+            .then(this.inicializar)
+    }
+
+    perderElJuego() {
+        swal('Platzi', 'Perdiste, intentalo de nuevo :( ', 'error')
+            .then(() => {
+                this.eliminarEventosClick();
+                this.inicializar();
+            })
     }
 
 }

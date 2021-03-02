@@ -1235,3 +1235,39 @@ Siempre que sea posible debemos usar const sobre let, y let sobre var.
 
 [========]
 
+### ILUMINANDO SECUENCIA DE COLORES
+
+Se observa la diferencia entre el uso de let y var para la declaración de variables y cómo esta diferencia afecta el alcance de la variable dentro de un ciclo for. 
+
+Se recomienda siempre el uso de let cuando se trata de estructuras for, ya que al usar var, el valor de dicha variable se va a remplazar cada vez con la última asignación que se haga, mientras que con let, conservará su valor dentro de cada iteración.
+
+Siempre que sea posible debemos usar const sobre let, y let sobre var.
+
+<br>
+
+[========]
+
+### OBTENIENDO EL INPUT DE UN USUARIO
+
+Para obtener el input del usuario agregamos un manejador para el evento click del mouse usando addEventListener para cada uno de los colores del juego. Utilizando la propiedad target devuelta por el evento click podemos identificar cuál es el botón que ha sido presionado.
+
+
+<br>
+
+[========]
+
+### AGREGANDO LA VERIFICACIÓN DEL COLOR ELEGIDO
+
+Para agregar atributos al objeto principal en el que está nuestro código, basta con usar this, haciendo referencia al contexto de la clase, y agregar los atributos con un punto: this.atributo = valor
+
+La verificación del color elegido la haremos creando y removiendo los eventos del click al pasar el juego a cada nuevo nivel.
+
+<br>
+
+[========]
+
+### AGREGANDO ESTADOS FINALES DEL JUEGO
+
+Incluiremos una librería de mensajes con estilos mucho más agradables que el mensaje básico de javascript para mostrar los estados finales del juego al usuario.
+
+<br>
