@@ -1151,3 +1151,87 @@ Para que esto funcione debemos poner este await dentro de una estructura try/cat
 <br>
 
 [========]
+
+## JUEGO SIMON DICE
+
+### COMENZANDO JUEGO 
+
+Crearemos el juego Simon (Simón dice), en el que se van iluminando una secuencia de botones que el jugador tendrá que ir repitiendo, si se equivoca volverá a comenzar. El juego tendrá 10 niveles de dificultad, que deberán ser superados para ganar.
+
+
+<br>
+
+[========]
+
+### GENERANDO UNA SECUENCIA DE NUMEROS
+
+Para generar la secuencia del juego usaremos un array con números aleatorios, que representarán el color del botón que se iluminará cada vez. Usamos new Array() para crear el arreglo de manera dinámica, y llamamos al método fill para rellenar ese array con ceros y poder luego iterar sobre éste con map()
+
+En esta clase lo que hacemos es crear la secuencia aleatoria del juego de la siguiente manera;
+
+
+
+
+    class Juego {
+        constructor(){
+            this.inicializar()
+            this.generarSecuencia()
+        }
+
+Vamos a clases y cremos en el contructor “this.generarSecuencia” para llamar la función;
+
+ 
+
+      generarSecuencia(){
+            this.secuencia = new Array(10).fill(0).map(n=> Math.floor(Math.random()*4))
+        }
+
+
+Como podemos observar en esta función vamoa a generar la secuencia y lo haremos creando un array, de una manera totalmente nueva cual no habíamos implementado antes, es muy importante aca usar la función “fill” para darle un valor a los arrays porque sino no va a funcionar nuestra función “map” para poder trabajar con los arrays y crear la secuencia, para ellos usamos una arrow function dentro de map, y usaremos el modulo de matemáticas universal de JavaScript y usaremos la función “floor” de este que lo que hará es redondearnos hacia abajo el numero que tengamos, esto lo haremos porque al usar math.random() como lo haremos a continuación, este crea un numero aleatorio entre 0 y 1 y debido a que lo multiplicamos x4 nos dará varios números entre 0 y 4 por lo que los queremos redondeados y para ello usamos esta función.
+
+    inicializar(){
+        btnEmpezar.classList.add('hide')
+        this.nivel = 1
+        this.colores = {
+            celeste,
+            violeta,
+            naranja,
+            verde
+        }
+    }
+
+Por ultimo creamos el atributo “this.nivel = 1” que es para indicar que el usuario iniciara por el nivel 1 , ya que ira avanzando a medida que juegue, y otro de detalle es que agregaremos los colores a un atributo de esta función,(dato curioso de JavaScript es el hecho de que cuando llamamos una variable o constante que su valor sea igual a su nombre, no hace falta escribirlo de la siguiente manera por ejemplo;
+
+
+
+    this.colores = {
+                celeste:celeste,
+            }
+Ya que hacerlo de esta manera es equivalente;
+
+
+
+    this.colores = {
+                celeste,
+                violeta,
+                naranja,
+                verde
+            }
+
+
+<br>
+
+[========]
+
+### ILUMINANDO SECUENCIA DE COLORES
+
+Se observa la diferencia entre el uso de let y var para la declaración de variables y cómo esta diferencia afecta el alcance de la variable dentro de un ciclo for. 
+
+Se recomienda siempre el uso de let cuando se trata de estructuras for, ya que al usar var, el valor de dicha variable se va a remplazar cada vez con la última asignación que se haga, mientras que con let, conservará su valor dentro de cada iteración.
+
+Siempre que sea posible debemos usar const sobre let, y let sobre var.
+
+<br>
+
+[========]
+
