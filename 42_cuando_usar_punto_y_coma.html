@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cambiando el contexto al llamar a una función</title>
+  </head>
+  <body>
+    <script>
+      console.log("Hola mi nombre es Sacha"); //aqui sin pynto y coma dara un error
+      [1, 2, 3].forEach((n) => console.log(n * 2));
+
+      const nombre = "Sacha";
+      console.log("Hola mi nombre es Sacha"); //antes de usar un template strings (``) tambien hay que usar punt y coma
+      `${nombre} es un desarrollador`;
+
+      function calcularDoble(numero) {
+        return {
+          original: numero,
+          doble: numero * 2,
+        };
+
+        /* return 
+        {
+          original: numero, doble: numero * 2,
+        } */ //asi no va a funcionar en la consola, es como que esta entendiendo que despues del return en vez del enter va un punto y coma, asi: return;
+      }
+
+    /*   for (var i= 0; i<10; i++) {
+
+      }; */ // <- punto y coma innecesario
+
+    </script>
+  </body>
+</html>

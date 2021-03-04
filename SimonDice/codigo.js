@@ -5,7 +5,7 @@ const verde = document.getElementById("verde");
 const btnEmpezar = document.getElementById("btnEmpezar");
 
 //ultimo nivel
-const ULTIMO_NIVEL = 1;
+const ULTIMO_NIVEL = 5;
 
 /* swal('Hola') */
 
@@ -33,7 +33,7 @@ class Juego {
 
         //Lo primero que hace es ocultar el boton empezar        
         /* btnEmpezar.classList.add("hide"); */
-        
+
         this.nivel= 1;
         this.colores = {
             celeste,
@@ -164,12 +164,12 @@ class Juego {
     }
 
     ganoElJuego() {
-        swal('Platzi', 'Felicitaciones, has ganado, crack', 'success')
+        swal('Simon dice', 'Felicitaciones, has ganado, crack', 'success')
             .then(this.inicializar)
     }
 
-    perderElJuego() {
-        swal('Platzi', 'Perdiste, intentalo de nuevo :( ', 'error')
+    perdioElJuego() {
+        swal('Simon dice', 'Perdiste, intentalo de nuevo :( ', 'error')
             .then(() => {
                 this.eliminarEventosClick();
                 this.inicializar();

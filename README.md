@@ -1271,3 +1271,371 @@ La verificación del color elegido la haremos creando y removiendo los eventos d
 Incluiremos una librería de mensajes con estilos mucho más agradables que el mensaje básico de javascript para mostrar los estados finales del juego al usuario.
 
 <br>
+
+## MEMOIZACION AHORRANDO PODER DE COMPUTO
+
+La memorización es una técnica de programación que nos permite ahorrar cómputo o procesamiento en JavaScript, al ir almacenando el resultado invariable de una función para que no sea necesario volver a ejecutar todas las instrucciones de nuevo, cuando se vuelva a llamar con los mismos parámetros. Es similar a usar memoria cache.
+
+Este proceso nos va a permitir ahorrar procesamiento, ahorrar cómputo, guardando ciertos resultados de algunas cuentas.
+
+Usaremos otro ejemplo de recursividad:
+
+Factoriales:
+
+!6 = 6* 5 * 4 * 3 * 2 * 1 = 720
+
+!12 = 12 * 11 * 10 * 9 * … * 1 == 12 * 11 * 10 * 9 * 8 * 7 * !6
+
+Cómo guardamos los resultados para no tener que volver a realizar cuentas ya hechas.
+
+
+	function factorial(n) {
+		if(n === 1) {
+			return 1
+		}
+		returnn * factorial(n - 1)
+	}
+
+Ahora guardamos en una cache los resultados de las operaciones ya hechas.
+
+
+    	function factorial(n) {
+    		if(!this.cache) {
+    			this.cache = {}
+    		}
+    		if (this.cache[n]){
+    			return this.cache[n]
+    		}
+    		if(n === 1) {
+    			return 1
+    		}
+    		this.cache[n] = n * factorial(n - 1)
+    		return this.cache[n]
+    	}
+
+<br>
+
+[========]
+
+
+## ¿HACE CUÁNTOS DÍAS NACISTE?
+
+Con variables de tipo Date, se pueden realizar operaciones de suma y resta similares a las que se realizan con números. El resultado que se obtiene está en milisegundos, por lo que luego hay que hacer algunas operaciones adicionales para llevarlos a días, meses o años según queramos. También aplica para Horas, Minutos, Segundos y Milisegundos.
+
+A las fechas podemos restarlas o sumarlas.
+Math.abs() nos permite poner cualquier fecha en el primer orden de tal manera que el resultado siempre sea positivo o ‘absoluto’’.
+La suma o resta nos da un número expresado en milisegundos.
+
+    function diasEntreFechas(fecha1, fecha2) {
+    	const unDia = 1000 * 60 *60 * 24	//1000ms x 60sec x 60min x 24hs
+    	const diferencia = Math.abs(fecha1 - fecha2)
+    
+    	return Math.floor(diferencia / unDia)
+    }
+    
+    const hoy = new Date()   // fecha actual por defecto
+    const nacimiento = new Date(1981, 08, 12)   // el constructor de new Date() recibe año, mes (enero=00) y el día.
+    
+    diasEntreFechas(hoy, nacimiento)  // == 13638   si divido esta cantidad de días por 365 obtendré la edad en años. 
+    
+	
+
+<br>
+
+[========]
+
+## FUNCIONES RECURSIVAS
+
+La recursividad es un concepto muy importante en cualquier lenguaje de programación. Una función recursiva es básicamente aquella que se llama (o se ejecuta) a sí misma de forma controlada, hasta que sucede una condición base.
+
+<br>
+
+[========]
+
+## CLOSURES
+
+Un closure, básicamente, es una función que recuerda el estado de las variables al momento de ser invocada, y conserva este estado a través de reiteradas ejecuciones. Un aspecto fundamental de los closures es que son funciones que retornan otras funciones.
+
+Un closure es una función que recuerda el estado de las cosas cuando fue creada.
+Una función que devuelve otra función con parámetros invocados en dos veces; primero el de la función ‘padre’ y luego el de la función ‘hijo’.
+
+Para ejemplificar generemos una función que va a crear saludos. En este caso hagamos un saludo argentino, uno mexicano y otro para colombia.
+
+
+    function crearSaludo(finalDeFrase) {
+    	return function(nombre) {
+    
+    	}
+    }
+
+La función ‘padre’ es generadora o creadora de otras funciones y la función ‘hijo’ es anónima, es la que nos va a devolver el resultado.
+Vamos a llamar esta función para crear constantes.
+
+
+    const saludoArgentino = crearSaludo('che')
+    const saludoMexicano = crearSaludo('wey')
+    const saludoColombiano = crearSaludo('amigo')
+
+Entonces ahora podemos llamar a la función nuevamente a través de cada variable constante y pasando el parámetro de la función ‘hijo’ esta vez, el parámetro ‘nombre’ para generar el saludo de la siguiente manera.
+
+
+    saludoArgentino('Pablo')  // Hola Pablo che
+    saludoMexicano('Pablo')   // Hola Pablo wey
+    saludoColombiano('Pablo') // Hola Pablo amigo
+
+Y agregamos la respuesta de la función (el console.log en este caso) en la que accedemos a la variable ‘finalDeFrase’ generada en la declaración de los diferentes saludos
+
+
+    function crearSaludo(finalDeFrase) {
+    	return function(nombre) {
+    		console.log(`Hola ${nombre} ${finalDeFrase}`)
+    	}
+    }
+
+La variable ‘finalDeFrase’ es la generada en las constantes con el nombre mismo de la función, a partir del parámetro que le pasamos; ‘che’, ‘wey’ o ‘amigo’ en este caso.
+
+La función ‘hijo’ recuerda cada una de las variables generadas que se usó para crear el saludo.
+Y la función ‘hijo’ va a ser cada una de las constantes creadas; saludoArgentino, saludoMexicano o saludoColombiano en este mismo caso.
+
+
+`const saludoArgentino = crearSaludo('che')`
+
+Al invocar la función ‘hijo’ luego, le pasamos el parámetro ‘nombre’ y así la función se completa y nos imprime el saludo ‘Hola Pablo che’ en este caso.
+
+
+    saludoArgentino('Pablo')  // Hola Pablo che
+    
+    El código completo queda así:
+    
+    
+    function crearSaludo(finalDeFrase) {
+    	return function(nombre) {
+    		console.log(`Hola ${nombre} ${finalDeFrase}`)
+    	}
+    }
+    
+    const saludoArgentino = crearSaludo('che')
+    const saludoMexicano = crearSaludo('wey')
+    const saludoColombiano = crearSaludo('amigo')
+    
+    saludoArgentino('Pablo')  // Hola Pablo che
+    saludoMexicano('Pablo')   // Hola Pablo wey
+    saludoColombiano('Pablo') // Hola Pablo amigo
+
+
+
+<br>
+
+[========]
+
+## ESTRUCTURAS DE DATOS INMUTABLES
+
+Las estructuras de datos inmutables forman parte de los principios de la Programación Funcional y nos permiten evitar tener efectos colaterales en los datos. En otras palabras, que hayan modificaciones en las variables sin nuestro consentimiento, produciendo comportamientos inesperados en el programa.
+
+Las estructuras de datos inmutables nos van a permitir deshacernos de los “efectos colaterales” cuando estamos desarrollando (side effects; efecto de lado según Sacha).
+
+Dada el siguiente código:
+
+    
+    const pablo = {
+    	nombre: 'Pablo',
+    	apellido: 'Andrés',
+    	edad: 30
+    }
+    
+    const cumpleanos = persona => persona.edad++
+
+La función modificará la edad en el objeto cada vez que se ejecute:
+
+
+    pablo
+    //{nombre: "Pablo", apellido: "Andrés", edad: 30}
+    
+    cumpleanos(pablo)
+    //30
+    
+    pablo
+    //{nombre: "Pablo", apellido: "Andrés", edad: 31}
+    
+    cumpleanos(pablo)
+    //31
+    
+    pablo
+    //{nombre: "Pablo", apellido: "Andrés", edad: 32}
+    
+    cumpleanos(pablo)
+    //32
+    
+    pablo
+    //{nombre: "Pablo", apellido: "Andrés", edad: 33}
+
+
+Este es el llamado side effect (efecto de lado). La función puede modificar el objeto sin que nosotros así lo queramos.
+Para evitar este efecto colateral definimos una función inmutable.
+
+
+    const cumpleanosInmutable = persona => ({
+    	...persona,
+    	edad: persona.edad + 1
+    })
+
+Si le pasamos el objeto ‘pablo’ la función nos devolverá un nuevo objeto sin modificar el anterior.
+
+
+
+    pablo
+    // {nombre: "Pablo", apellido: "Andrés", edad: 33}
+    
+    cumpleanosInmutable(pablo)
+    // {nombre: "Pablo", apellido: "Andrés", edad: 34}
+    
+    cumpleanosInmutable(pablo)
+    // {nombre: "Pablo", apellido: "Andrés", edad: 34}
+    
+    pablo
+    // {nombre: "Pablo", apellido: "Andrés", edad: 33}
+    
+    cumpleanosInmutable(pablo)
+    // {nombre: "Pablo", apellido: "Andrés", edad: 34}
+    
+    cumpleanosInmutable(pablo)
+    // {nombre: "Pablo", apellido: "Andrés", edad: 34}
+    
+    pablo
+    // {nombre: "Pablo", apellido: "Andrés", edad: 33}
+
+
+La “desventaja” que tendremos es que para guardar el valor de la función vamos a tener que generar una nueva variable.
+
+
+    const pabloViejo = cumpleanosInmutable(pablo)
+    const pabloMasViejo = cumpleanosInmutable(pabloViejo)
+
+
+Utilizar estructuras de datos es parte de las buenas prácticas de javascript ya que nos permite deshacernos de los “efectos de lado” y no preocuparnos de modificar código inconscientemente y que se “rompa todo” en cualquier otro lado.
+
+<br>
+
+[========]
+
+## CAMBIANDO EL CONTEXTO AL LLAMAR A UNA FUNCIÓN
+
+El contexto en javascript está definido por el objeto ‘this’ cuando se ejecuta un código.
+Es muy común el error: ‘No se puede ejecutar este método porque es indefinido’, esto sucede porque el ‘this’ no es quien esperamos que sea.
+
+Dado el siguiente código:
+
+
+
+    const pablo = {
+    	nombre: 'Pablo',
+    	apellido: 'Andrés',
+    }
+    const mariela = {
+    	nombre: 'Mariela',
+    	apellido: 'Riesnik',
+    }
+    
+    function saludar() {
+    	console.log(`Hola, mi nombre es ${this.nombre}`)
+    }
+    
+    // Si ejecuto:
+    
+    saludar()
+    // Hola, mi nombre es undefined
+    
+    // Ya que tenemos la función definida dentro de un contexto global el 'this' en saludar() refiere al objeto 'window'. Por lo tanto es lo mismo que:
+    
+    window.saludar()
+    // Hola, mi nombre es undefined
+    
+
+Cómo hacemos para cambiar ese ‘this’ de la función?
+El método ‘.bind()’ se usa justamente para cambiar en contexto, el ‘this’, en una función.
+
+
+    const saludarAPablo = saludar.bind(pablo)
+    const saludarAMariela = saludar.bind(mariela)
+    ‘.bind()’ nos devuelve una nueva función atando el parámetro,_ ‘(pablo)’
+	
+En este caso, al ‘this’ dentro de esa función, saludar en este caso.
+
+Este nunca modifica a la función original.
+
+
+    saludarAPablo()
+    // Hola, mi nombre es Pablo
+    
+    saludarAMariela()
+    // Hola, mi nombre es Mariela
+    
+    
+    Otra forma de usarlo:
+    
+    
+    setTimeout( saludar.bind(pablo), 1000) == setTimeout(saludarAPablo, 1000)
+
+
+Y otra, agregado un parámetro a la función:
+
+
+
+    function saludar(saludo = 'Hola') {
+    	console.log(`${saludo}, mi nombre es ${this.nombre}`)
+    }
+    setTimeout( saludar.bind(pablo, 'Hola loco!'), 1000)
+    // Hola loco!, mi nombre es Pablo
+    
+    //también se puede agragar en la declaración de la constante.
+    const saludarAPablo = saludar.bind(pablo, 'Hola loco!!')
+    // Hola loco!!, mi nombre es Pablo
+    
+
+El primer parámetro es el contexto y luego van los siguientes parámetros en el orden en el que aparezcan.
+
+IMPORTANTE!!!
+
+La función .bind() no ejecuta la función a la que se agrega, sino que simplemente nos retorna una nueva función con ese contexto cambiado.
+Usando el método .bind, enviamos la referencia a la función sin ejecutarla, pasando el contexto como parámetro.
+
+Otros dos métodos que nos sirven para cambiar el contexto son: .call y .apply.
+
+Usando el método .call, ejecutamos inmediatamente la función con el contexto indicado.
+
+
+    saludar.call(pablo)
+    // Hola, mi nombre es Pablo  -  se ejecuta inmediatamente
+    
+    saludar.bind(pablo)
+    // no produce ningún resultado, no la ejecuta.
+
+
+Al .call le pasamos los parámetros separados por ‘,’ igual que en el .bind.
+
+
+    saludar.call(pablo, 'Hola cheeee!!')
+    // Hola cheeee!!, mi nombre es Pablo
+    
+
+Usando el método .apply, es similar a .call pero los parámetros adicionales se pasan como un arreglo de valores.
+
+
+
+    saludar.apply(pablo, ['Hola mi querido'])
+    // Hola mi querido, mi nombre es Pablo
+    
+
+Manejar a dónde refiere el ‘.this’ es algo que tenemos que tener muy presente, sobretodo cuando escribimos en modo asíncrono, ya que siempre que ejecutemos una función de esta naturaleza el ‘.this’ siempre cambia y es muy importante atarlo a nuestra clase, objeto o función.
+
+<br>
+
+[========]
+
+## ¿CUÁNDO HACE FALTA PONER EL PUNTO Y COMA AL FINAL DE LA LÍNEA?
+
+El punto y coma es opcional en JavaScript, excepto en algunos casos:
+
+- Cuando usamos varias instrucciones en una mísma línea
+- Al comenzar la próxima línea con un array
+- Al comenzar la próxima línea con un template string
